@@ -1,0 +1,114 @@
+$(document).ready(function() {
+    // Funcionalidad para el botón de WhatsApp
+    $('#whatsappBtn').click(function() {
+        $('#formContainer').html(`
+            <div id="step1">
+                <h4>Pregunta 1:</h4>
+                <input type="text" id="question1">
+                <button id="nextStep">Continuar</button>
+            </div>
+        `);
+    });
+
+    // Lógica de los pasos del formulario
+    $(document).on('click', '#nextStep', function() {
+        var currentStep = $(this).parent().attr('id');
+        switch (currentStep) {
+            case 'step1':
+                var answer1 = $('#question1').val();
+                if (answer1) {
+                    $('#formContainer').html(`
+                        <div id="step2">
+                            <h4>Pregunta 2:</h4>
+                            <input type="text" id="question2">
+                            <button id="prevStep">Atrás</button>
+                            <button id="nextStep">Continuar</button>
+                        </div>
+                    `);
+                } else {
+                    alert('Por favor, responde la pregunta 1.');
+                }
+                break;
+            case 'step2':
+                var answer2 = $('#question2').val();
+                if (answer2) {
+                    $('#formContainer').html(`
+                        <div id="step3">
+                            <h4>Pregunta 3:</h4>
+                            <input type="text" id="question3">
+                            <button id="prevStep">Atrás</button>
+                            <button id="nextStep">Continuar</button>
+                        </div>
+                    `);
+                } else {
+                    alert('Por favor, responde la pregunta 2.');
+                }
+                break;
+            case 'step3':
+                var answer3 = $('#question3').val();
+                if (answer3) {
+                    $('#formContainer').html(`
+                        <div id="summary">
+                            <h4>Resumen:</h4>
+                            <p>Pregunta 1: ${$('#question1').val()}</p>
+                            <p>Pregunta 2: ${$('#question2').val()}</p>
+                            <p>Pregunta 3: ${$('#question3').val()}</p>
+                            <button id="submitForm">Finalizar</button>
+                            <button id="prevStep">Atrás</button>
+                            <button id="cancel">Cancelar</button>
+                        </div>
+                    `);
+                } else {
+                    alert('Por favor, responde la pregunta 3.');
+                }
+                break;
+        }
+    });
+
+    // Volver al paso anterior
+    $(document).on('click', '#prevStep', function() {
+        var currentStep = $(this).parent().attr('id');
+        switch (currentStep) {
+            case 'step2':
+                $('#formContainer').html(`
+                    <div id="step1">
+                        <h4>Pregunta 1:</h4>
+                        <input type="text" id="question1">
+                        <button id="nextStep">Continuar</button>
+                    </div>
+                `);
+                break;
+            case 'step3':
+                $('#formContainer').html(`
+                    <div id="step2">
+                        <h4>Pregunta 2:</h4>
+                        <input type="text" id="question2">
+                        <button id="prevStep">Atrás</button>
+                        <button id="nextStep">Continuar</button>
+                    </div>
+                `);
+                break;
+            case 'summary':
+                $('#formContainer').html(`
+                    <div id="step3">
+                        <h4>Pregunta 3:</h4>
+                        <input type="text" id="question3">
+                        <button id="prevStep">Atrás</button>
+                        <button id="nextStep">Continuar</button>
+                    </div>
+                `);
+                break;
+        }
+    });
+
+    // Finalizar el formulario y enviar
+    $(document).on('click', '#submitForm', function() {
+        // Aquí puedes implementar la lógica para enviar el formulario
+        alert('Formulario enviado correctamente.');
+    });
+
+    // Cancelar y volver al inicio
+    $(document).on('click', '#cancel', function() {
+        $('#formContainer').html('');
+    });
+});
